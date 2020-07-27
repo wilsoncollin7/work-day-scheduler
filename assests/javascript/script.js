@@ -10,6 +10,8 @@ $(document).ready(function() {
     console.log('time:', time);
 
     // save the value in localStorage as time
+
+    localStorage.setItem(time, value)
     
   });
 
@@ -34,16 +36,38 @@ $(document).ready(function() {
 
       // else
       // remove class "past", remove class "present", add class "future"
+
+      if (blockHour < currentHour) {
+        $(this).attr("class", "row time-block past");
+      } else if (blockHour <= currentHour) {
+        $(this).attr("class", "row time-block present")
+      } else {
+        $(this).attr("class", " row time-block future")
+      };
       
     });
   }
 
+  function loadData() {
+    $(".time-block").each(function() {
+      var id = $(this).attr("id");
+      var text = $(this).children(".description")
+
+      text.text(localStorage.getItem(id));
+    });
+  };
+
   hourUpdater();
+  loadData();
 
   // set up interval to check if current time needs to be updated
   // which means execute hourUpdater function every 15 seconds
 
   // load any saved data from localStorage
+
+  setInterval(function() {hourUpdater(); loadData(); console.log("updated -----------------");}, 15000)
+
+
   
 
   // display current day on page
