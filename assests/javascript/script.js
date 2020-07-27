@@ -6,37 +6,25 @@ $(document).ready(function() {
     var value = $(this).siblings(".description").val();
     var time = $(this).parent().attr("id");
 
-    console.log('value:', value);
-    console.log('time:', time);
+    // console.log('value:', value);
+    // console.log('time:', time);
 
     // save the value in localStorage as time
-
     localStorage.setItem(time, value)
-    
   });
 
   function hourUpdater() {
     // get current number of hours
     var currentHour = moment().hours();
-    console.log('current hour:', currentHour);
+    // console.log('current hour:', currentHour);
 
     // loop over time blocks
     $(".time-block").each(function() {
       var blockHour = parseInt($(this).attr("id").split("-")[1]);
 
-      console.log("block hour:", blockHour);
+      // console.log("block hour:", blockHour);
 
-      // check if we've moved past this time
-      
-      // if the current hour is greater than the block hour
-      // then add class "past"
-
-      // if they are equal
-      // then remove class "past" and add class "present"
-
-      // else
-      // remove class "past", remove class "present", add class "future"
-
+      // if statements the check the time of the app and sets the classes for styling
       if (blockHour < currentHour) {
         $(this).attr("class", "row time-block past");
       } else if (blockHour <= currentHour) {
@@ -44,10 +32,10 @@ $(document).ready(function() {
       } else {
         $(this).attr("class", " row time-block future")
       };
-      
     });
   }
 
+  // function that sets the text of the textarea to the saved text from the storage
   function loadData() {
     $(".time-block").each(function() {
       var id = $(this).attr("id");
@@ -57,18 +45,12 @@ $(document).ready(function() {
     });
   };
 
+  // run functions at the start of the app, these are updated every 15 seconds
   hourUpdater();
   loadData();
 
-  // set up interval to check if current time needs to be updated
-  // which means execute hourUpdater function every 15 seconds
-
-  // load any saved data from localStorage
-
-  setInterval(function() {hourUpdater(); loadData(); console.log("updated -----------------");}, 15000)
-
-
-  
+  // interval to check time every 15 seconds and reloads the local storage
+  setInterval(function() {hourUpdater(); loadData();}, 15000)
 
   // display current day on page
   $("#currentDay").text(moment().format("dddd, MMMM Do"));
